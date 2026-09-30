@@ -13,7 +13,7 @@ This makes it possible to build a Linux video pipeline such as:
 FFmpeg
   │ BGR24
   ▼
-vixen-worker.exe (Wine)
+vixen.exe (Wine)
   │
   ├─ NVIDIA Maxine VFX
   ├─ Artifact Reduction
@@ -53,7 +53,7 @@ Not implemented yet:
 
 Maxine VFX does not provide a native Linux runtime.
 
-Vixen does not attempt to port Maxine to Linux. Instead, `vixen-worker.exe` is
+Vixen does not attempt to port Maxine to Linux. Instead, `vixen.exe` is
 cross-compiled as a Windows executable using MinGW and runs inside Wine.
 
 The Windows Maxine runtime then communicates with the Linux NVIDIA stack using
@@ -269,7 +269,7 @@ cmake --build build-mingw -j"$(nproc)"
 The resulting executable should be:
 
 ```text
-build-mingw/vixen-worker.exe
+build-mingw/vixen.exe
 ```
 
 Depending on how the executable is linked, MinGW runtime DLLs may also be
@@ -290,13 +290,13 @@ The current worker operates on raw BGR24 frames.
 Conceptually:
 
 ```text
-vixen-worker.exe INPUT_WIDTH INPUT_HEIGHT OUTPUT_HEIGHT
+vixen.exe INPUT_WIDTH INPUT_HEIGHT OUTPUT_HEIGHT
 ```
 
 For example:
 
 ```bash
-wine build-mingw/vixen-worker.exe 1280 720 1080
+wine build-mingw/vixen.exe 1280 720 1080
 ```
 
 means:
@@ -337,7 +337,7 @@ ffmpeg -v error \
   -f rawvideo \
   -pix_fmt bgr24 \
   - \
-| WINEDEBUG=-all wine build-mingw/vixen-worker.exe 1280 720 1080 \
+| WINEDEBUG=-all wine build-mingw/vixen.exe 1280 720 1080 \
 | ffmpeg -y \
   -f rawvideo \
   -pix_fmt bgr24 \
