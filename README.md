@@ -246,42 +246,25 @@ This avoids unrelated DLSS layer behaviour interfering with diagnosis.
 
 ## Building
 
-Vixen's worker is a **Windows executable**.
-
-It must therefore be cross-compiled using MinGW rather than built as a native
-Linux ELF executable.
-
-Configure the MinGW build:
+Vixen is cross-compiled on Linux as a Windows executable using MinGW-w64.
 
 ```bash
 cmake -S . -B build-mingw \
   -DCMAKE_SYSTEM_NAME=Windows \
   -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc \
   -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++
-```
 
-Build:
-
-```bash
 cmake --build build-mingw -j"$(nproc)"
 ```
 
-The resulting executable should be:
+The resulting executable is:
 
 ```text
 build-mingw/vixen.exe
 ```
 
-Depending on how the executable is linked, MinGW runtime DLLs may also be
-required by Wine, including:
-
-```text
-libgcc_s_seh-1.dll
-libstdc++-6.dll
-libwinpthread-1.dll
-```
-
-TODO: make the release build static or otherwise package these cleanly.
+The MinGW runtime is statically linked, so no MinGW runtime DLLs are required
+alongside the executable.
 
 ## Worker interface
 
